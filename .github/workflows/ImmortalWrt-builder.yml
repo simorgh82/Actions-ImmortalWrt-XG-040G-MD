@@ -105,6 +105,18 @@ jobs:
         make download -j8
         find dl -size -1024c -delete
 
+    # 新增：释放磁盘空间（避免编译时空间不足）
+    - name: Free disk space
+      run: |
+        echo "清理前磁盘使用情况："
+        df -h
+        echo "删除临时文件..."
+        sudo rm -rf /home/runner/.cache
+        sudo rm -rf /tmp/*
+        sudo apt clean
+        echo "清理后磁盘使用情况："
+        df -h
+
     - name: Compile Firmware
       id: compile
       run: |
